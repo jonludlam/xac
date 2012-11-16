@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <title>XAC</title>
+    <meta content="" name="description">
+    <meta content="" name="author">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+      }
+	  .db_reflist {
+	    font-size: 9pt;
+	    font-family: monospace;
+	  }
+	</style>
+	
+	<!-- Le fav and touch icons -->
+    <!--
+    <link href="images/favicon.ico" rel="shortcut icon">
+    <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="images/apple-touch-icon-72x72.png" sizes="72x72" rel="apple-touch-icon">
+    <link href="images/apple-touch-icon-114x114.png" sizes="114x114" rel="apple-touch-icon"> -->
+
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"> </script>
+    <script type="text/javascript" src="js/jquery.rpc.js"> </script>
+    <script type="text/javascript" src="js/jquery.cookie.js"> </script>
+    <script type="text/javascript" src="js/bootstrap.js"> </script>
+	<script type="text/javascript" src="js/mustache.js"> </script>
+    <script type="text/javascript" src="js/ICanHaz-no-mustache.js"> </script>
+    <script type="text/javascript" src="js/xenapi.js"> </script>
+    <script type="text/javascript" src="js/jquery.jstree.js"> </script>
+    <script type="text/javascript" src="js/main.js"> </script>
+	<script type="text/javascript" src="js/construct_tree.js"> </script>
+	<script type="text/javascript" src="js/panes.js"> </script>
+	<script type="text/javascript" src="js/login.js"> </script>
+	<script type="text/javascript" src="js/db.js"> </script>
+	<script type="text/javascript" src="js/consoles.js"> </script>
+	<script type="text/javascript" src="js/vnc.js"> </script>
+	<script type="text/javascript" src="include/vnc.js"> </script>
+	<script type="text/javascript" src="include/ui.js"> </script>
+	<script type="text/javascript" src="js/blobtest.js"> </script>
+	<script type="text/javascript" src="js/xenuse.js"> </script>
+	<script type="text/javascript" src="js/helpers.js"> </script>
+	<script type="text/javascript" src="js/xsinstall.js"> </script>
+	<script type="text/javascript" src="js/debinstall.js"> </script>
+	<script type="text/javascript" src="js/dump.json"> </script>
+    <link rel="stylesheet" href="include/plain.css">
+
+	<!-- ICanHazJS template -->
+
+
+	<script type="text/html" id="vnc">
+        <div id="noVNC_screen">
+			<div class="well">
+              <canvas id="noVNC_canvas" width="640px" height="20px">
+				Canvas not supported.
+              </canvas>
+              <div id="noVNC_status_bar" class="noVNC_status_bar">
+                <table class="table bordered-table"><tr>
+                    <td><div id="noVNC_status">Loading</div></td>
+                    <td><div id="noVNC_buttons">
+                        <input type=button value="Send CtrlAltDel"
+                               id="sendCtrlAltDelButton">
+                      </div>
+					</td>
+                </tr></table>
+              </div>
+			</div>
+        </div>		
+	</script>
+	
+
+    <link rel="stylesheet" href="css/xac.css">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+            <ul class="nav" id="navbarul">
+            </ul>
+        </div>
+      </div>
+    </div>
+
+	<div class="container" id="xac_content">
+
+	</div>
+
+</body></html>

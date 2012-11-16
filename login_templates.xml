@@ -1,0 +1,37 @@
+<html>
+  <head>
+	<script type="text/html" id="login_content">
+	  <![CDATA[
+			   	  <div class="content well">
+		<form class="form-horizontal">
+		  <fieldset>
+			<legend>Login to an XCP/XenServer pool</legend>
+          <div class="control-group">
+		  <label class="control-label">Server</label>
+		  <div class="controls"><input type="text" id="login_server" placeholder="Server" /></div>
+		  </div>
+          <div class="control-group">
+		  <label class="control-label">Username</label>
+		  <div class="controls"><input type="text" id="login_username" placeholder="Username"/></div>
+		  </div>
+          <div class="control-group">
+		  <label class="control-label">Password</label>
+		  <div class="controls"><input type="password" id="login_password" placeholder="Password"/></div>
+		  </div>
+		  <div class="control-group">
+		  <label class="control-label">
+		  Remember</label><div class="controls"><input type="checkbox" id="login_remember"/></div>
+
+		  </div>
+		  <div class="control-group">
+            <div class="controls">
+			<button class="btn" type="button">Login</button>
+			</div>
+		  </div>
+		  </fieldset>
+		  </form>
+      </div>
+	  ]]>
+	</script>
+  </head>
+</html>

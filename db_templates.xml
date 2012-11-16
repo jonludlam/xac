@@ -1,0 +1,95 @@
+<html>
+  <head>
+	<script type="text/html" id="db_object_row">
+	  <![CDATA[
+		  <td>{{key}}</td>
+		  <td>
+			{{#strvalue}}
+			{{#class}}<a data-ref="{{ref}}" data-pool="{{pool}}">{{value}}</a>{{/class}}
+			{{^class}}<span>{{value}}</span>{{/class}}
+			{{/strvalue}}
+			{{#objvalue}}
+			object
+			{{/objvalue}}
+		  </td>
+	  ]]>
+	</script>
+	<script type="text/html" id="db_object_template">
+	  <![CDATA[
+	  <table class="table table-condensed table-striped table-bordered">
+		<thead><tr><th class="nav-header" style="display:table-cell">Field</th><th class="nav-header" style="display:table-cell">Value</th></tr></thead>
+		<tbody style="font-size:10pt">
+		  {{#data}}
+		    <tr id="table_row_{{key}}">{{>db_object_row}}</tr>
+		  {{/data}}
+		</tbody>
+	  </table>
+	  ]]>
+	</script>
+
+	<script type="text/html" id="db_refs_template">
+	  <![CDATA[
+	  <ul class="nav nav-list">
+		<li class="nav-header">References</li>
+		{{#data}}
+		<li {{#active}}class="active"{{/active}}><a class="db_reflist" href="#" data-ref="{{ref}}" data-pool="{{pool}}">O:{{shortref}}</a></li>
+		{{/data}}
+	  </ul>
+	  ]]>
+	</script>
+
+	<script type="text/html" id="db_classes_template">
+	  <![CDATA[
+	  <ul class="nav nav-list" id="db_class_list">
+		<li class="nav-header">Main Classes</li>
+		{{#mainclasses}}
+		<li {{#active}}class="active"{{/active}}><a href="#" data-pool='{{pool}}' data-cls='{{cls}}'>{{strcls}}</a></li>
+        {{/mainclasses}}
+		<li class="nav-header">Other Classes</li>
+		{{#classes}}
+		<li><a href='#' data-pool='{{pool}}' data-cls='{{.}}'>{{.}}</a></li>
+		{{/classes}}
+	  </ul>
+	  ]]>
+	</script>
+
+	<script type="text/html" id="db_content">
+	  <![CDATA[	  
+	  <div class="row">
+        <div class="span2" id="db_classes_container">
+		  <div id="db_classes">
+		  <ul class="nav nav-list">
+			<li class="nav-header">Main Classes</li>
+			<li class="active"><a href="#">VM</a></li>
+			<li><a href="#">Host</a></li>
+			<li><a href="#">SR</a></li>
+			<li><a href="#">Pool</a></li>
+			<li class="nav-header">Other Classes</li>
+		  </ul>
+		  </div>
+		</div>
+		<div class="span10" id="db_filter">
+		</div>
+		<div class="span2" id="db_refs">
+		  <ul class="nav nav-list">
+			<li class="nav-header">References</li>
+			<li class="active"><a href="#">abcde</a></li>
+			<li><a href="#">12345</a></li>
+			</ul>
+		</div>
+		<div class="span8" id="db_object">
+		  <table class="table table-condensed table-striped table-bordered">
+			<thead><tr><th class="nav-header" style="display:table-cell">Field</th><th class="nav-header" style="display:table-cell">Value</th></tr></thead>
+			<tbody style="font-size:10pt">
+			  <tr><td>name_label</td><td>TestVM</td></tr>
+			  <tr><td>name_description</td><td>Some long description</td></tr>
+			</tbody>
+	  </table>
+		  boo
+		</div>
+	  </div>
+	  ]]>
+	</script>
+
+  </head>
+</html>

@@ -1,0 +1,42 @@
+<html>
+  <head>
+	<script type="text/html" id="main_content">
+	  <![CDATA[
+			   <div class="row">
+			   <div class="span12">
+			   <h1>XAC <small>Xen Api Console</small></h1>
+			   </div>
+			   </div>
+			   <div class="page-header"></div>
+			   <div class="row">
+			   <div class="span12">
+			   {{^pools}}
+			   <h3>No pools connected</h3>
+			   <p>To connect to a XenServer or XCP pool, please click on
+			   'login' in the navbar</p>
+			   {{/pools}}
+
+               {{#pools}}
+			   <h3>Currently connected pools</h3>
+			   <p>To connect to more pools, please click on 'login' in the 
+			   navbar</p>
+			   <table class="table table-condensed table-striped table-bordered">
+			   <thead><tr>
+			   <th class="nav-header" style="display:table-cell">Master hostname</th>
+			   <th class="nav-header" style="display:table-cell">Master address</th>
+			   <th class="nav-header" style="display:table-cell">Pool size</th>
+			   <th class="nav-header" style="display:table-cell">Connection status</th>
+			   <th class="nav-header" style="display:table-cell">Auto connect</th>
+			   </tr></thead>
+			   <tbody>
+			   {{#pool}}
+			   <tr><td>{{master_address}}</td><td>{{master_ip}}</td><td>{{nhosts}}</td><td>{{state}}</td><td><input type="checkbox" data-pool="{{pool}}" checked="{{autoconnect}}"/></td></tr>
+			   {{/pool}}
+			   </tbody>
+
+			   </table>
+			   {{/pools}}
+	  ]]>
+	</script>
+  </head>
+</html>

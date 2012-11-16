@@ -1,0 +1,34 @@
+<html>
+  <head>
+	<script type="text/html" id="console_content">
+	  <![CDATA[
+	  <div class="row">
+		<div class="span3" id="con_pools_and_consoles">
+		  <ul class="nav nav-list" id="con_pools_and_consoles_ul">
+			<li class="nav-header">Pool: xxx</li>
+			<li class="active"><a href="#">debian</a></li>
+			<li><a href="#">windows</a></li>
+			<li><a href="#">ubuntu</a></li>
+			<li><a href="#">freebsd</a></li>
+			<li class="nav-header">Pool: yyy</li>
+			<li><a href="#">windows</a></li>
+			<li><a href="#">ubuntu</a></li>
+		  </ul>
+		</div>
+		<div class="span9" id="con_console"></div>
+	  </div>
+	  ]]>
+	</script>
+
+	<script type="text/html" id="console_list">
+	  <![CDATA[
+	  {{#pools}}
+	  <li class="nav-header">Pool: {{name}}</li>
+	  {{#consoles}}
+	  <li><a {{#active}}class="active"{{/active}} data-ref="{{ref}}" data-pool="{{pool}}" href="#">{{conname}}</a></li>
+	  {{/consoles}}
+	  {{/pools}}
+	  ]]>
+	</script>
+  </head>
+</html>

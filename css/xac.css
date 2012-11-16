@@ -1,0 +1,12 @@
+#mytree {
+	overflow: hidden;
+}
+
+.hidden {
+	display: none;
+}
+
+.hoverbold {
+    font-weight: bold;
+    cursor: pointer;
+}
