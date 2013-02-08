@@ -40,17 +40,19 @@ Consoles.prototype = {
 				var active = (c==this.cur_con);
 
 				if(con.protocol=="rfb") {
-					console.log("rfb");
-					var vm=con['VM']
-					console.log("VM="+vm);
-					var convm=xo.vm[vm];
-					console.log(convm);
-					var vmname=convm.name_label;
-					console.log("VM name="+vmname);
-					x['consoles'][j++]={conname:vmname,
-										active:active,
-										ref:c,
-									    pool:pool};
+					if(xo.vm[con['VM']]) {
+						console.log("rfb");
+						var vm=con['VM']
+						console.log("VM="+vm);
+						var convm=xo.vm[vm];
+						console.log(convm);
+						var vmname=convm.name_label;
+						console.log("VM name="+vmname);
+						x['consoles'][j++]={conname:vmname,
+											active:active,
+											ref:c,
+											pool:pool};
+					}
 				}
 			}
 
