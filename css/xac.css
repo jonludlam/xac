@@ -10,3 +10,16 @@
     font-weight: bold;
     cursor: pointer;
 }
+
+.graphcontainer {
+	height: 400px;
+}
+
+.graphcontainersmall {
+	height: 200px;
+}
+
+.graph {
+	width: 100%;
+	height: 100%;
+}

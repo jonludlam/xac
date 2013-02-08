@@ -25,7 +25,7 @@ var Xenapi = function() {
     this.session = {};
     this.use_json = true;
     this.cache_objects = true;
-    this.get_rrds = false; /* will only work with cache_objects */
+    this.get_rrds = true;
     this.username=""
     this.password=""
     this.status=0; 
@@ -187,7 +187,10 @@ Xenapi.prototype = {
 	}
 
 	var error = function(xhr,text,error) { if(text) {alert("text: "+text);} if(error) {alert("error: "+error);} };
-	var successfn = function(host) {return function(data) {var t=processrrd(host,eval("("+data+")")); parent.lastupdatetime[host]=t;};};
+		var successfn = function(parent,host) {return (function(data) {
+			var t=processrrd(parent,host,eval("("+data+")")); 
+			parent.lastupdatetime[host]=t;
+		});};
 	
 	for(var host in this.xo.host) {
 	    if(this.xo.host.hasOwnProperty(host)) {
@@ -205,13 +208,14 @@ Xenapi.prototype = {
 		} 
 		
 		var url = "http://"+this.xo.host[host].address+"/rrd_updates";
-		var success = successfn(host);
+			var success = successfn(parent,host);
 		
 		$.ajax({
 			type: "GET",
 			    url: url,
 			    error: error,
 			    success: success,
+			dataType: "text",
 			    data: "start="+parseInt(t,10)+"&cf=AVERAGE&json=true&interval=1&host=true&session_id="+this.session
 			    });
 	    }

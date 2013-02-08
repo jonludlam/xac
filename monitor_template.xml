@@ -1,0 +1,71 @@
+<html>
+  <head>
+	<script type="text/html" id="monitor_content">
+	  <![CDATA[
+			   <div class="row">
+			   <div class="span2" id="db_classes_container">
+			   <div id="monitor_views">
+			   <ul class="nav nav-list">
+			   <li class="nav-header">Host</li>
+			   <li class="active"><a href="#" id="monitor_host_overview">Overview</a></li>
+			   <li><a id="monitor_host_cpu" href="#">CPU</a></li>
+			   <li><a id="monitor_host_network" href="#">Network</a></li>
+			   <li><a id="monitor_host_storage" href="#">Storage</a></li>
+               <li><a id="monitor_host_other" href="#">Other</a></li>
+			   <li class="nav-header">VM</li>
+			   <li><a id="monitor_vm_cpu" href="#">CPU</a></li>
+			   <li><a id="monitor_vm_network" href="#">Network</a></li>
+			   <li><a id="monitor_vm_storage" href="#">Storage</a></li>
+			   <li><a id="monitor_vm_other" href="#">Other</a></li>
+			   </ul>
+			   </div>
+			   </div>
+               <div class="span10" id="graphmainspan">
+
+			   </div>
+			   </div>
+	  ]]>
+	</script>
+
+	<script type="text/html" id="m_host_overview_tmpl">
+	  <![CDATA[
+			   <div class="span9 well">
+			   <p><h2>{{hostname}}<small class="muted">{{hostuuid}}</small></h2></p>
+			   <div class="btn-group">
+        <button class="btn">Change</button>
+        <button class="btn dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu hostdropdown">
+		{{#hosts}}
+		<li><a data-hostuuid="{{uuid}}" data-hostname="{{name}}">{{name}}</a></li>
+        {{/hosts}}
+        </ul>
+        </div>
+		</div>  
+
+
+		<div class="span4">
+	    <h4>CPU</h4>
+		<div class="graphcontainersmall"><div class="graph"></div></div>			   
+		</div>
+
+		<div class="span4 offset1">
+	    <h4>Memory</h4>
+		<div class="graphcontainersmall"><div class="graph"></div></div>			   
+		</div>
+
+		<div class="span4">
+		<h4>Network</h4>
+		<div class="graphcontainersmall"><div class="graph"></div></div>
+		</div>
+
+		<div class="span4 offset1">
+		<h4>XAPI stats</h4>
+		<div class="graphcontainersmall"><div class="graph"></div></div>
+		</div>
+
+	  ]]>
+	</script>
+  </head>
+</html>
