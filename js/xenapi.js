@@ -31,17 +31,135 @@ var Xenapi = function() {
     this.status=0; 
     this.hoststats={};
     this.lastupdatetime={};
+	this.event_registration=[];
     this.master_address=""
 };
 
 Xenapi.prototype = {
     registerEventListener : function(name,classes,type,cb) {
-	this.listeners[name]={classes:classes, ty:type, callback:cb};
+		this.listeners[name]={classes:classes, ty:type, callback:cb};
     },
 
     unregisterEventListener : function(name) {
-	delete this.listeners[name];
+		delete this.listeners[name];
     },
+
+	eventFieldsFromCallback : function(result) {
+		var res=result.events;
+		var list;
+		var modifiedclasses={};
+		var addedclasses={};
+		var delclasses={};
+		var c, ref, i, cb;
+		
+		for(i=0; i<res.length; i++) {
+			c = res[i]['class'];
+			ref = res[i].ref;
+			
+			switch(res[i].operation) {
+			case "mod": 
+				if(!modifiedclasses[c]) { modifiedclasses[c]={}; }
+				modifiedclasses[c][ref]=res[i].snapshot; 
+				break;
+			case "add": 
+				if(!addedclasses[c]) { addedclasses[c]={}; }
+				addedclasses[c][ref]=res[i].snapshot;
+				break;
+			case "del": 
+				if(!this.xo[c]) {
+					this.xo[c]={}
+				}
+				if(this.xo[c][ref])
+					delete this.xo[c][ref];
+				if(!delclasses[c]) { delclasses[c]={}; }
+				delclasses[c][ref]={};
+				break;
+			default:
+				break;
+			}
+		}
+		
+		var callbacks={};
+		
+		for(cb in this.listeners) {
+			if(this.listeners.hasOwnProperty(cb)) {
+				var call=false;
+				var classes;
+				switch(this.listeners[cb].ty) {
+				case "mod":
+					classes=modifiedclasses;
+					break;
+				case "add":
+					classes=addedclasses;
+					break;
+				case "del":
+					classes=delclasses;
+					break;
+				default:
+					classes=modifiedclasses;
+				}
+				
+				for(c in classes) {
+					if(classes.hasOwnProperty(c)) {
+						for(i=0; i<this.listeners[cb].classes.length; i++) {
+							if(this.listeners[cb].classes[i]==c) {
+								call=true;
+							}
+						}
+					}
+				}
+				
+				if(call) {
+					try {
+						this.listeners[cb].callback(classes);
+					} catch(e) {
+					}
+				}
+			}
+		};
+		
+		for(c in modifiedclasses) {
+			if(modifiedclasses.hasOwnProperty(c)) {
+				if(!this.xo[c]) {
+					this.xo[c]={};
+				}
+				
+				for(ref in modifiedclasses[c]) {
+					if(modifiedclasses[c].hasOwnProperty(ref)) {
+						for(field in modifiedclasses[c][ref]) {
+							this.xo[c][ref]={};
+							if(modifiedclasses[c][ref].hasOwnProperty(field)) {
+								this.xo[c][ref][field]=modifiedclasses[c][ref][field];
+							}
+						}
+						
+					}
+				}
+			}
+		}
+		
+		for(c in addedclasses) {
+			if(addedclasses.hasOwnProperty(c)) {
+				if(!this.xo[c]) {
+					this.xo[c]={};
+				}
+				for(ref in addedclasses[c]) {
+		    if(addedclasses[c].hasOwnProperty(ref)) {
+				this.xo[c][ref]=addedclasses[c][ref];
+		    }
+				}
+			}
+		}
+		
+		var parent=this;
+		
+		if(parent.xapi.event.hasOwnProperty("fields_from")) {
+			parent.xapi.event.fields_from(function(result) {parent.eventFieldsFromCallback(parent.check(result));},parent.session,parent.event_registration,result.token,30.1);
+		} else {
+			parent.xapi.event.from(function(result) {parent.eventFieldsFromCallback(parent.check(result));},parent.session,parent.event_registration,result.token,30.1);
+		}
+		
+	},
 
     eventCallback : function(result) {
 
@@ -187,10 +305,10 @@ Xenapi.prototype = {
 	}
 
 	var error = function(xhr,text,error) { if(text) {alert("text: "+text);} if(error) {alert("error: "+error);} };
-		var successfn = function(parent,host) {return (function(data) {
-			var t=processrrd(parent,host,eval("("+data+")")); 
-			parent.lastupdatetime[host]=t;
-		});};
+    var successfn = function(parent,host) {return (function(data) {
+		var t=processrrd(parent,host,eval("("+data+")")); 
+		parent.lastupdatetime[host]=t;
+	});};
 	
 	for(var host in this.xo.host) {
 	    if(this.xo.host.hasOwnProperty(host)) {
@@ -208,14 +326,14 @@ Xenapi.prototype = {
 		} 
 		
 		var url = "http://"+this.xo.host[host].address+"/rrd_updates";
-			var success = successfn(parent,host);
+        var success = successfn(parent,host);
 		
 		$.ajax({
 			type: "GET",
 			    url: url,
 			    error: error,
 			    success: success,
-			dataType: "text",
+			    dataType: "text",
 			    data: "start="+parseInt(t,10)+"&cf=AVERAGE&json=true&interval=1&host=true&session_id="+this.session
 			    });
 	    }
@@ -223,7 +341,7 @@ Xenapi.prototype = {
     },
 
     check : function(result) {
-	result=result.result;
+		result=result.result;
             if(result.Status=="Failure") {
                 var message=result.ErrorDescription[0];
                 for(var i=1; i<result.ErrorDescription.length; i++) {
@@ -304,7 +422,7 @@ Xenapi.prototype = {
 	    clearInterval(this.myticker);
 	}
 
-	this.status=1;
+	this.status=0;
 	this.session="OpaqueRef:NULL";
 	for(obj in this.xo) {
 	    if(this.xo.hasOwnProperty(obj)) {
@@ -333,35 +451,68 @@ Xenapi.prototype = {
 			sequence[1](); },
 		    x.username,x.password); },
 	    function() {
-		if(!x.cache_objects) {
-		    return;
+			if(!x.cache_objects) {
+				return;
+			}
+
+			/* Generate a list of all the classes with get_all defined */
+			var all_classes=[];
+			var i=0;
+			for(cls in x.xapi) {
+				if(x.xapi[cls].hasOwnProperty("get_all")) {
+					all_classes[i++]=cls;
+				}
+			}
+
+			function startswith(x,y) {
+				return x.slice(0, y.length) == y;
+			}
+
+			/* If fields_from is defined, make a subset query */
+			if(x.xapi.event.hasOwnProperty("fields_from")) {
+				var classes = [
+					"pool",
+					"host",
+					"sr",
+					"network",
+					"vm[uuid,name_label,power_state,metrics,guest_metrics,resident_on,console]",
+					"vbd[uuid,vm,vdi]",
+					"vdi[uuid]",
+					"vif[uuid,vm,network]",
+					"task[uuid,name_label,status]",
+					"pbd[currently_attached]"];
+				for(i=0; i<all_classes.length; i++) {
+					var found=false;
+					for(var j=0; j<classes.length; j++) {
+						if(startswith(classes[j],all_classes[i].toLowerCase()))
+							var found=true;
+					}
+					if(!found)
+						classes[classes.length]=all_classes[i].toLowerCase()+"[uuid]"
+				}
+				x.event_registration=classes;
+				x.xapi.event.fields_from(
+					function(result) {
+						x.eventFieldsFromCallback(x.check(result));
+						x.status=1;
+						console.log("About to call finishedfn");
+						finishedfn()},
+					x.session,classes,"",0.1);
+				x.startMetrics();
+			} else {
+				x.event_registration=["*"];
+				x.xapi.event.from(
+					function(result) {
+						x.eventFieldsFromCallback(x.check(result));
+						x.status=1;
+						finishedfn()},
+					x.session,["*"],"",0.1);
+				x.startMetrics();
+			}
 		}
-		x.xapi.event.register(
-		    function(result) {
-			x.check(result);
-			sequence[2](); },
-		    x.session,["*"]); },
-	    function() {
-		for(c in x.xapi) {
-		    if(x.xapi[c].get_all_records) {
-			x.xo[c.toLowerCase()]=-1;
-			x.xapi[c].get_all_records(
-			    function(c) {
-				return function(result) {
-				    x.xo[c]=x.check(result); 
-				    if(check_all_done()) {
-					x.xapi.event.next(function(result) {x.eventCallback(x.check(result));}, x.session);
-					x.status=2;
-					x.startMetrics();
-					finishedfn();
-				    }
-				};
-			    } (c.toLowerCase()),x.session);
-		    }
-		}
-	    }
-	    
 	];
+		  
+	
 	
 	if(this.apiversion.minor>2) {
 	    /* Orlando and above */
