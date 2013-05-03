@@ -304,7 +304,7 @@ Xenapi.prototype = {
 	    return;
 	}
 
-	var error = function(xhr,text,error) { if(text) {alert("text: "+text);} if(error) {alert("error: "+error);} };
+	var error = function(xhr,text,error) { if(text) {console.log("text: "+text);} if(error) {console.log("error: "+error);} };
     var successfn = function(parent,host) {return (function(data) {
 		var t=processrrd(parent,host,eval("("+data+")")); 
 		parent.lastupdatetime[host]=t;
@@ -324,8 +324,7 @@ Xenapi.prototype = {
 		if (typeof netscape != "undefined") { 
 		    //netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect UniversalBrowserRead"); 
 		} 
-		
-		var url = "http://"+this.xo.host[host].address+"/rrd_updates";
+		var url = "http://"+this.master_address+"/rrd_updates";
         var success = successfn(parent,host);
 		
 		$.ajax({

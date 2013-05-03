@@ -57,20 +57,20 @@ Monitor.prototype = {
 		var me=this;
 		this.addGraph({
 			jq: $('#graphmainspan .graph')[0],
-			getdata: (function() me.getData(function(r) {
-				return (hostfilter.test(r) && /host.*cpu_avg/.test(r));}))});
+			getdata: (function() { me.getData(function(r) {
+				return (hostfilter.test(r) && /host.*cpu_avg/.test(r));})})});
 		this.addGraph({
 			jq: $('#graphmainspan .graph')[1],
-			getdata: (function() me.getData(function(r) {
-				return (hostfilter.test(r) && /host.*:memory/.test(r));}))});
+			getdata: (function() { me.getData(function(r) {
+				return (hostfilter.test(r) && /host.*:memory/.test(r));})})});
 		this.addGraph({
 			jq: $('#graphmainspan .graph')[2],
-			getdata: (function() me.getData(function(r) {
-				return (hostfilter.test(r) && /host.*pif_aggr.*x/.test(r));}))});
+			getdata: (function() { me.getData(function(r) {
+				return (hostfilter.test(r) && /host.*pif_aggr.*x/.test(r));})})});
 		this.addGraph({
 			jq: $('#graphmainspan .graph')[3],
-			getdata: (function() me.getData(function(r) {
-				return (hostfilter.test(r) && /host.*xapi/.test(r));}))});
+			getdata: (function() { me.getData(function(r) {
+				return (hostfilter.test(r) && /host.*xapi/.test(r));})})});
 
 	},
 

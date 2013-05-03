@@ -138,9 +138,9 @@ $(document).ready(function() {
 		pane_switchto('login_pane'); 
 		return false; 
 	});
-	$.get("templates.xml", function(response) {
+	/*$.get("templates.xml", function(response) {
 		$('script',response).each(function () {
 			ich.addTemplate(this.getAttribute("id"),$(this).text());
 		});
-	})
+	})*/
 });

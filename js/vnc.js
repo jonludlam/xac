@@ -2,7 +2,7 @@ var rfb;
 
 function vnc(xapi,con,content) {
 
-	if(xapi.xo.console[con].protocol!="rfb") {
+	if(xapi.xo.console[con].protocol   !=  "rfb") {
 		console.log("Can't connect to non-rfb console!");
 		return;
 	}
@@ -59,6 +59,7 @@ function vnc(xapi,con,content) {
 		var location = getLocation(xapi.xo.console[con].location);
 		var hostname = location.hostname;
 		var path = location.pathname + location.search + "&session_id=" + xapi.session;
+        console.log(hostname);
 		var port = 80;
 /*		if (location.protocol == "https:")
 			port = 443;*/

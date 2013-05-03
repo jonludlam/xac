@@ -1,11 +1,13 @@
 
 test_machines = {}		
 
+/*
 xenuserpc = new $.rpc(
 	"http://snoosnoo2.uk.xensource.com:8000/RPC2",
 	"xml", 
 	function() {},
 	null); 	
+*/
 
 function find_my_xenservers(user) {
 	var test_machines_x = xenuserpc.tm_get_list();
